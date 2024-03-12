@@ -1,0 +1,60 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+// метод шелла
+void shellSort(int arr[], int n) {
+    // велич кроку
+    for (int step = n / 2; step > 0; step /= 2) {
+        //сортув вставками з step
+        for (int i = step; i < n; i++) {
+            // збер
+            int temp = arr[i];
+
+            // пор елем з поперед підмасив впорядков
+            int j;
+            for (j = i; j >= step && abs(arr[j - step]) > abs(temp); j -= step) {
+                arr[j] = arr[j - step];
+            }
+            arr[j] = temp;
+        }
+    }
+}
+
+int main() {
+    int arr[8][4] = {
+        {3, -2, 5, 1},
+        {4, 9, -6, 2},
+        {-7, 8, 1, -5},
+        {0, -2, 4, 7},
+        {6, -3, 2, -9},
+        {8, -1, 0, 3},
+        {-4, 7, -8, 2},
+        {5, 1, -3, 6}
+    };
+
+    // знах рядок мінімальн елемент
+    int minAbsRow = 0;
+    int minAbsValue = abs(arr[0][0]);
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (abs(arr[i][j]) < minAbsValue) {
+                minAbsValue = abs(arr[i][j]);
+                minAbsRow = i;
+            }
+        }
+    }
+
+    // сортуван рядка
+    shellSort(arr[minAbsRow], 4);
+
+    setlocale(LC_ALL, "Ukrainian");
+    cout << "Вiдсортований рядок з найменшим за модулем елементом:\n";
+    for (int j = 0; j < 4; j++) {
+        cout << arr[minAbsRow][j] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
